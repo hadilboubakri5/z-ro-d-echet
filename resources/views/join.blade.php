@@ -6,98 +6,367 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rejoindre - ZeroTrace</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, sans-serif;
+        }
+
+        body{
+            min-height:100vh;
+            background:linear-gradient(to bottom, white, #ecfdf5, white);
+        }
+
+        header{
+            border-bottom:1px solid #d1fae5;
+            background:white;
+        }
+
+        .container{
+            max-width:1200px;
+            margin:auto;
+            padding:20px 24px;
+        }
+
+        .header-content{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .logo{
+            display:flex;
+            align-items:center;
+            gap:12px;
+        }
+
+        .logo-icon{
+            width:40px;
+            height:40px;
+            background:#059669;
+            border-radius:10px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            color:white;
+            font-size:20px;
+        }
+
+        .logo h1{
+            font-size:30px;
+            font-weight:bold;
+            color:#064e3b;
+        }
+
+        nav{
+            display:flex;
+            gap:24px;
+        }
+
+        nav a{
+            text-decoration:none;
+            color:#047857;
+            font-weight:600;
+        }
+
+        main{
+            max-width:1200px;
+            margin:auto;
+            padding:50px 24px;
+        }
+
+        .grid{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:50px;
+            align-items:center;
+        }
+
+        .hero-title{
+            font-size:60px;
+            font-weight:bold;
+            line-height:1.2;
+            color:#064e3b;
+            margin-bottom:24px;
+        }
+
+        .hero-title span{
+            color:#059669;
+        }
+
+        .hero-text{
+            font-size:20px;
+            color:#047857;
+            margin-bottom:35px;
+        }
+
+        .feature{
+            display:flex;
+            gap:15px;
+            margin-bottom:25px;
+        }
+
+        .feature-icon{
+            width:25px;
+            height:25px;
+            background:#059669;
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:white;
+            font-size:14px;
+            flex-shrink:0;
+        }
+
+        .feature h4{
+            color:#064e3b;
+            margin-bottom:5px;
+        }
+
+        .feature p{
+            color:#047857;
+            font-size:14px;
+        }
+
+        .card{
+            background:white;
+            border-radius:25px;
+            padding:40px;
+            border:1px solid #d1fae5;
+            box-shadow:0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .card h3{
+            font-size:38px;
+            color:#064e3b;
+            margin-bottom:10px;
+        }
+
+        .card-desc{
+            color:#047857;
+            margin-bottom:30px;
+        }
+
+        .form-group{
+            margin-bottom:24px;
+        }
+
+        label{
+            display:block;
+            margin-bottom:8px;
+            font-weight:600;
+            color:#064e3b;
+        }
+
+        input{
+            width:100%;
+            padding:15px;
+            border-radius:12px;
+            border:1px solid #a7f3d0;
+            background:#ecfdf5;
+            outline:none;
+            font-size:15px;
+        }
+
+        input:focus{
+            border-color:#059669;
+        }
+
+        .checkbox{
+            display:flex;
+            gap:10px;
+            align-items:flex-start;
+            margin-bottom:35px;
+        }
+
+        .checkbox input{
+            width:auto;
+            margin-top:4px;
+        }
+
+        .checkbox p{
+            font-size:14px;
+            color:#047857;
+        }
+
+        .checkbox a{
+            color:#064e3b;
+            font-weight:600;
+        }
+
+        .buttons{
+            display:grid;
+            grid-template-columns:1fr 1fr 1fr;
+            gap:20px;
+            margin-top:20px;
+        }
+
+        button{
+            border:none;
+            padding:16px;
+            border-radius:18px;
+            font-size:18px;
+            font-weight:bold;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        button:hover{
+            transform:scale(1.05);
+        }
+
+        .btn-add{
+            background:linear-gradient(to right,#059669,#16a34a);
+            color:white;
+        }
+
+        .btn-edit{
+            background:linear-gradient(to right,#2563eb,#06b6d4);
+            color:white;
+        }
+
+        .btn-cancel{
+            background:linear-gradient(to right,#e5e7eb,#d1d5db);
+            color:#374151;
+        }
+
+        .login-text{
+            margin-top:30px;
+            text-align:center;
+            color:#047857;
+            font-size:14px;
+        }
+
+        .login-text button{
+            background:none;
+            border:none;
+            padding:0;
+            color:#064e3b;
+            font-weight:bold;
+            cursor:pointer;
+            font-size:14px;
+        }
+
+        #loginPanel{
+            margin-top:30px;
+            background:#ecfdf5;
+            border:1px solid #d1fae5;
+            border-radius:20px;
+            padding:25px;
+            display:none;
+        }
+
+        #loginPanel h4{
+            font-size:28px;
+            color:#064e3b;
+            margin-bottom:20px;
+        }
+
+        .login-btn{
+            width:100%;
+            background:#059669;
+            color:white;
+        }
+
+        .login-btn:hover{
+            background:#047857;
+        }
+
+        @media(max-width:900px){
+
+            .grid{
+                grid-template-columns:1fr;
+            }
+
+            .buttons{
+                grid-template-columns:1fr;
+            }
+
+            .hero-title{
+                font-size:40px;
+            }
+
+        }
+
+    </style>
+
 </head>
 
-<body class="min-h-screen bg-gradient-to-b from-white via-emerald-50 to-white">
+<body>
 
-<header class="border-b border-emerald-100 bg-white">
-    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+<header>
 
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center text-white">
+    <div class="container header-content">
+
+        <div class="logo">
+
+            <div class="logo-icon">
                 ♻️
             </div>
 
-            <h1 class="text-2xl font-bold text-emerald-900">
-                ZeroTrace
-            </h1>
+            <h1>ZeroTrace</h1>
+
         </div>
 
-        <div class="flex items-center gap-6">
-            <a href="/" class="text-emerald-700 font-semibold">Accueil</a>
-            <a href="/assistant" class="text-emerald-700 font-semibold">Assistant IA</a>
-        </div>
+        <nav>
+            <a href="/">Accueil</a>
+            <a href="/assistant">Assistant IA</a>
+        </nav>
 
     </div>
+
 </header>
 
-<main class="max-w-6xl mx-auto px-6 py-12">
+<main>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <div class="grid">
 
         <!-- LEFT -->
+
         <div>
 
-            <h2 class="text-5xl font-bold text-emerald-900 leading-tight mb-6">
+            <h2 class="hero-title">
                 Rejoignez le
-                <span class="text-emerald-600">
-                    mouvement zéro déchet
-                </span>
+                <span>mouvement zéro déchet</span>
             </h2>
 
-            <p class="text-lg text-emerald-700 mb-8">
+            <p class="hero-text">
                 Devenez un guerrier écologique et commencez à suivre votre impact environnemental dès aujourd'hui.
             </p>
 
-            <div class="space-y-6">
+            <div class="feature">
 
-                <div class="flex gap-3">
-                    <div class="w-6 h-6 bg-emerald-600 rounded-full text-white flex items-center justify-center">
-                        ✓
-                    </div>
+                <div class="feature-icon">✓</div>
 
-                    <div>
-                        <h4 class="font-bold text-emerald-900">
-                            Scannez facilement
-                        </h4>
-
-                        <p class="text-sm text-emerald-700">
-                            Accédez à notre scanner instantané
-                        </p>
-                    </div>
+                <div>
+                    <h4>Scannez facilement</h4>
+                    <p>Accédez à notre scanner instantané</p>
                 </div>
 
-                <div class="flex gap-3">
-                    <div class="w-6 h-6 bg-emerald-600 rounded-full text-white flex items-center justify-center">
-                        ✓
-                    </div>
+            </div>
 
-                    <div>
-                        <h4 class="font-bold text-emerald-900">
-                            Suivez votre progrès
-                        </h4>
+            <div class="feature">
 
-                        <p class="text-sm text-emerald-700">
-                            Analyse détaillée de votre impact
-                        </p>
-                    </div>
+                <div class="feature-icon">✓</div>
+
+                <div>
+                    <h4>Suivez votre progrès</h4>
+                    <p>Analyse détaillée de votre impact</p>
                 </div>
 
-                <div class="flex gap-3">
-                    <div class="w-6 h-6 bg-emerald-600 rounded-full text-white flex items-center justify-center">
-                        ✓
-                    </div>
+            </div>
 
-                    <div>
-                        <h4 class="font-bold text-emerald-900">
-                            Conseils personnalisés
-                        </h4>
+            <div class="feature">
 
-                        <p class="text-sm text-emerald-700">
-                            Recommandations adaptées à vos habitudes
-                        </p>
-                    </div>
+                <div class="feature-icon">✓</div>
+
+                <div>
+                    <h4>Conseils personnalisés</h4>
+                    <p>Recommandations adaptées à vos habitudes</p>
                 </div>
 
             </div>
@@ -105,176 +374,137 @@
         </div>
 
         <!-- RIGHT -->
+
         <div>
 
-            <div class="bg-white rounded-2xl shadow-xl p-8 border border-emerald-100">
+            <div class="card">
 
-                <h3 class="text-3xl font-bold text-emerald-900 mb-2">
-                    Créez votre compte
-                </h3>
+                <h3>Créez votre compte</h3>
 
-                <p class="text-emerald-700 mb-6">
+                <p class="card-desc">
                     Commencez votre voyage zéro déchet maintenant
                 </p>
 
-                <form id="registerForm" method="POST" action="{{ isset($user) ? '/update/'.$user->id : '/register' }}">
+                <form id="registerForm">
 
-                    @csrf
-                    @if(isset($user))
-                        @method('PUT')
-                    @endif
+                    <div class="form-group">
 
-                    <!-- NAME -->
-                    <div class="mb-6">
-
-                        <label class="block text-sm font-medium text-emerald-900 mb-2">
-                            Nom complet
-                        </label>
+                        <label>Nom complet</label>
 
                         <input
                             type="text"
-                            name="name"
-                            placeholder="Jean Dupont"
-                            value="{{ $user->name ?? '' }}"
-                            required
-                            class="w-full px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-lg">
+                            placeholder="Jean Dupont">
+
                     </div>
 
-                    <!-- EMAIL -->
-                    <div class="mb-6">
+                    <div class="form-group">
 
-                        <label class="block text-sm font-medium text-emerald-900 mb-2">
-                            Email
-                        </label>
+                        <label>Email</label>
 
                         <input
                             type="email"
-                            name="email"
-                            placeholder="vous@exemple.com"
-                            value="{{ $user->email ?? '' }}"
-                            required
-                            class="w-full px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-lg">
+                            placeholder="vous@exemple.com">
+
                     </div>
 
-                    <!-- PASSWORD -->
-                    <div class="mb-6">
+                    <div class="form-group">
 
-                        <label class="block text-sm font-medium text-emerald-900 mb-2">
-                            Mot de passe
-                        </label>
+                        <label>Mot de passe</label>
 
                         <input
                             type="password"
-                            name="password"
-                            placeholder="••••••••"
-                            required
-                            class="w-full px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-lg">
+                            placeholder="••••••••">
+
                     </div>
 
-                    <!-- CONFIRM PASSWORD -->
-                    <div class="mb-6">
+                    <div class="form-group">
 
-                        <label class="block text-sm font-medium text-emerald-900 mb-2">
-                            Confirmer le mot de passe
-                        </label>
+                        <label>Confirmer le mot de passe</label>
 
                         <input
                             type="password"
-                            name="password_confirmation"
-                            placeholder="••••••••"
-                            required
-                            class="w-full px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-lg">
+                            placeholder="••••••••">
+
                     </div>
 
-                    <!-- CHECKBOX -->
-                    <div class="flex gap-3 items-start mb-8">
+                    <div class="checkbox">
 
-                        <input type="checkbox" required class="mt-1">
+                        <input type="checkbox">
 
-                        <p class="text-sm text-emerald-700">
+                        <p>
                             J'accepte les
-                            <a href="#" class="underline font-semibold">
-                                conditions d'utilisation
-                            </a>
+                            <a href="#">conditions d'utilisation</a>
                             et la
-                            <a href="#" class="underline font-semibold">
-                                politique de confidentialité
-                            </a>
+                            <a href="#">politique de confidentialité</a>
                         </p>
 
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-8">
+                    <div class="buttons">
 
-                        <!-- AJOUTER -->
-                        <button
-                            type="submit"
-                            class="group relative overflow-hidden bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white py-4 rounded-2xl font-bold text-lg shadow-xl transition-all duration-300 hover:scale-105">
-
-                            <span class="relative z-10 flex items-center justify-center gap-2">
-                                ➕ Ajouter
-                            </span>
-
+                        <button type="submit" class="btn-add">
+                            ➕ Ajouter
                         </button>
 
-                        <!-- MODIFIER -->
-                        <button
-                            type="button"
-                            onclick="window.location.href='/edit/1'"
-                            class="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white py-4 rounded-2xl font-bold text-lg shadow-xl transition-all duration-300 hover:scale-105">
-
-                            <span class="relative z-10 flex items-center justify-center gap-2">
-                                ✏️ Modifier
-                            </span>
-
+                        <button type="button" class="btn-edit">
+                            ✏️ Modifier
                         </button>
 
-                        <!-- ANNULER -->
-                        <button
-                            type="button"
-                            onclick="annulerFormulaire()"
-                            class="group relative overflow-hidden bg-gradient-to-r from-gray-200 to-gray-300 hover:from-gray-300 hover:to-gray-400 text-gray-700 py-4 rounded-2xl font-bold text-lg shadow-lg transition-all duration-300 hover:scale-105">
-
-                            <span class="relative z-10 flex items-center justify-center gap-2">
-                                ❌ Annuler
-                            </span>
-
+                        <button type="reset" class="btn-cancel">
+                            ❌ Annuler
                         </button>
 
                     </div>
+
                 </form>
 
-                <div class="mt-8 text-center text-sm text-emerald-700">
+                <div class="login-text">
+
                     <p>
                         Vous avez déjà un compte ?
-                        <button type="button" id="showLoginBtn" class="font-semibold text-emerald-900 hover:underline">
+
+                        <button id="showLoginBtn">
                             Se connecter
                         </button>
+
                     </p>
+
                 </div>
 
-                <div id="loginPanel" class="mt-8 hidden bg-emerald-50 rounded-2xl p-6 border border-emerald-100">
-                    <h4 class="text-2xl font-bold text-emerald-900 mb-4">Connexion</h4>
-                    <form id="loginForm" method="POST" action="/login">
-                        @csrf
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-emerald-900 mb-2">Email</label>
-                            <input type="email" name="email" placeholder="vous@exemple.com" required class="w-full px-4 py-3 bg-white border border-emerald-200 rounded-lg">
+                <div id="loginPanel">
+
+                    <h4>Connexion</h4>
+
+                    <form>
+
+                        <div class="form-group">
+
+                            <label>Email</label>
+
+                            <input
+                                type="email"
+                                placeholder="vous@exemple.com">
+
                         </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-emerald-900 mb-2">Mot de passe</label>
-                            <input type="password" name="password" placeholder="••••••••" required class="w-full px-4 py-3 bg-white border border-emerald-200 rounded-lg">
+
+                        <div class="form-group">
+
+                            <label>Mot de passe</label>
+
+                            <input
+                                type="password"
+                                placeholder="••••••••">
+
                         </div>
-                        <div class="flex items-center justify-between gap-4">
-                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-2xl font-semibold transition">
-                                Se connecter
-                            </button>
-                        </div>
-                        <div class="mt-4 text-xs text-emerald-700">
-                            Entrez simplement votre email et mot de passe pour vous connecter.
-                        </div>
+
+                        <button type="submit" class="login-btn">
+                            Se connecter
+                        </button>
+
                     </form>
+
                 </div>
+
             </div>
 
         </div>
@@ -285,24 +515,20 @@
 
 <script>
 
-function annulerFormulaire() {
-    document.querySelector('form').reset();
-}
-
-function modifierCompte() {
-    alert("Mode modification activé");
-}
-
 const showLoginBtn = document.getElementById('showLoginBtn');
 const loginPanel = document.getElementById('loginPanel');
 
-if (showLoginBtn && loginPanel) {
-    showLoginBtn.addEventListener('click', () => {
-        loginPanel.classList.toggle('hidden');
-        loginPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    });
-}
+showLoginBtn.addEventListener('click', () => {
+
+    if(loginPanel.style.display === "block"){
+        loginPanel.style.display = "none";
+    }else{
+        loginPanel.style.display = "block";
+    }
+
+});
 
 </script>
+
 </body>
 </html>
