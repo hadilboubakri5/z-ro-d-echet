@@ -1,59 +1,177 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🌿 Zéro Déchet — Application Web Écologique avec Laravel
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 📌 Présentation du projet
 
-## About Laravel
+Zéro Déchet est une application web dynamique développée avec le framework Laravel.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+L’objectif principal est de sensibiliser les utilisateurs à une consommation responsable grâce à :
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- l’analyse des produits via scan de code-barres
+- l’évaluation de leur impact écologique
+- la proposition d’alternatives durables
+- la participation à des défis écologiques
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🎯 Objectifs du projet
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- Développer une application web dynamique complète avec Laravel
+- Concevoir une base de données relationnelle
+- Implémenter des fonctionnalités CRUD
+- Utiliser les vues Blade et les composants Laravel
+- Gérer l’authentification et les rôles utilisateurs
+- Créer une interface moderne et responsive
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 🛠 Technologies utilisées
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+| Technologie | Description |
+|---|---|
+| Laravel | Framework PHP MVC |
+| PHP | Langage backend |
+| MySQL | Base de données |
+| Blade | Moteur de templates Laravel |
+| HTML5 / CSS3 | Interfaces utilisateur |
+| JavaScript | Interactivité |
+| Git & GitHub | Gestion de version |
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 📁 Fonctionnalités réalisées
 
-## Contributing
+### ✅ Authentification
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- Inscription utilisateur
+- Connexion utilisateur
+- Déconnexion sécurisée
+- Gestion des rôles :
+  - Admin
+  - Utilisateur
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### ✅ Dashboard Administrateur
 
-## Security Vulnerabilities
+Le dashboard admin permet :
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- Gestion des utilisateurs
+- Gestion des produits
+- Gestion des défis écologiques
+- Consultation des statistiques
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### ✅ Gestion des Produits CRUD
+
+- Ajouter un produit
+- Modifier un produit
+- Supprimer un produit
+- Afficher les produits
+
+Champs gérés :
+
+- nom
+- code-barres
+- catégorie
+- marque
+- impact écologique
+- image
+- description
+
+---
+
+### ✅ Scan Intelligent des Produits
+
+- Activation de la caméra
+- Détection automatique du code-barres
+- Recherche du produit
+- Affichage des informations écologiques
+
+---
+
+### ✅ Impact Écologique
+
+- Affichage du score environnemental
+- Tableau de suivi écologique
+- Sensibilisation écologique
+
+---
+
+### ✅ Défis Écologiques
+
+- Création de défis
+- Gestion des défis par admin
+- Participation des utilisateurs
+
+---
+
+## 🧩 Architecture MVC
+
+Le projet respecte l’architecture MVC de Laravel.
+
+### Models
+
+- User
+- Produit
+- Alternative
+- Impact
+- Defi
+- Participation
+
+### Controllers
+
+- AuthController
+- ScanController
+- AdminDashboardController
+- AdminProduitController
+- AdminUserController
+- AdminDefiController
+
+### Views Blade
+
+- Home
+- Login
+- Register
+- Dashboard Admin
+- Produits
+- Scan
+- Défis
+
+---
+
+## 🔗 Relations Eloquent
+
+| Relation | Description |
+|---|---|
+| hasMany | Produit → Alternatives |
+| hasOne | Produit → Impact |
+| belongsTo | Participation → User |
+| belongsTo | Participation → Defi |
+
+---
+
+## 📄 Fonctionnalités Laravel utilisées
+
+### Routes
+
+- Routes publiques
+- Routes protégées
+- Middleware admin
+
+### Eloquent ORM
+
+- Models
+- Relations
+- Requêtes base de données
+
+### Blade
+
+- Templates
+- Layouts
+- Composants
+
+### Middleware
+
+- Authentification
+- Protection admin
