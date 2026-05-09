@@ -117,7 +117,7 @@
                     Commencez votre voyage zéro déchet maintenant
                 </p>
 
-                <form method="POST" action="{{ isset($user) ? '/update/'.$user->id : '/register' }}">
+                <form id="registerForm" method="POST" action="{{ isset($user) ? '/update/'.$user->id : '/register' }}">
 
                     @csrf
                     @if(isset($user))
@@ -125,7 +125,7 @@
                     @endif
 
                     <!-- NAME -->
-                    <div>
+                    <div class="mb-6">
 
                         <label class="block text-sm font-medium text-emerald-900 mb-2">
                             Nom complet
@@ -141,7 +141,7 @@
                     </div>
 
                     <!-- EMAIL -->
-                    <div>
+                    <div class="mb-6">
 
                         <label class="block text-sm font-medium text-emerald-900 mb-2">
                             Email
@@ -157,7 +157,7 @@
                     </div>
 
                     <!-- PASSWORD -->
-                    <div>
+                    <div class="mb-6">
 
                         <label class="block text-sm font-medium text-emerald-900 mb-2">
                             Mot de passe
@@ -172,7 +172,7 @@
                     </div>
 
                     <!-- CONFIRM PASSWORD -->
-                    <div>
+                    <div class="mb-6">
 
                         <label class="block text-sm font-medium text-emerald-900 mb-2">
                             Confirmer le mot de passe
@@ -180,14 +180,14 @@
 
                         <input
                             type="password"
-                            name="confirmPassword"
+                            name="password_confirmation"
                             placeholder="••••••••"
                             required
                             class="w-full px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-lg">
                     </div>
 
                     <!-- CHECKBOX -->
-                    <div class="flex gap-3 items-start">
+                    <div class="flex gap-3 items-start mb-8">
 
                         <input type="checkbox" required class="mt-1">
 
@@ -203,81 +203,104 @@
                         </p>
 
                     </div>
-<!-- BUTTONS -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-8">
 
-    <!-- AJOUTER -->
-    <button
-        type="submit"
-        class="group relative overflow-hidden bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white py-4 rounded-2xl font-bold text-lg shadow-xl transition-all duration-300 hover:scale-105">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-8">
 
-        <span class="relative z-10 flex items-center justify-center gap-2">
-            ➕ Ajouter
-        </span>
+                        <!-- AJOUTER -->
+                        <button
+                            type="submit"
+                            class="group relative overflow-hidden bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white py-4 rounded-2xl font-bold text-lg shadow-xl transition-all duration-300 hover:scale-105">
 
-    </button>
+                            <span class="relative z-10 flex items-center justify-center gap-2">
+                                ➕ Ajouter
+                            </span>
 
-    <!-- MODIFIER -->
-    <button
-        type="button"
-        onclick="window.location.href='/edit/1'"
-        class="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white py-4 rounded-2xl font-bold text-lg shadow-xl transition-all duration-300 hover:scale-105">
+                        </button>
 
-        <span class="relative z-10 flex items-center justify-center gap-2">
-            ✏️ Modifier
-        </span>
+                        <!-- MODIFIER -->
+                        <button
+                            type="button"
+                            onclick="window.location.href='/edit/1'"
+                            class="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white py-4 rounded-2xl font-bold text-lg shadow-xl transition-all duration-300 hover:scale-105">
 
-    </button>
+                            <span class="relative z-10 flex items-center justify-center gap-2">
+                                ✏️ Modifier
+                            </span>
 
-    <!-- ANNULER -->
-    <button
-        type="button"
-        onclick="annulerFormulaire()"
-        class="group relative overflow-hidden bg-gradient-to-r from-gray-200 to-gray-300 hover:from-gray-300 hover:to-gray-400 text-gray-700 py-4 rounded-2xl font-bold text-lg shadow-lg transition-all duration-300 hover:scale-105">
+                        </button>
 
-        <span class="relative z-10 flex items-center justify-center gap-2">
-            ❌ Annuler
-        </span>
+                        <!-- ANNULER -->
+                        <button
+                            type="button"
+                            onclick="annulerFormulaire()"
+                            class="group relative overflow-hidden bg-gradient-to-r from-gray-200 to-gray-300 hover:from-gray-300 hover:to-gray-400 text-gray-700 py-4 rounded-2xl font-bold text-lg shadow-lg transition-all duration-300 hover:scale-105">
 
-    </button>
+                            <span class="relative z-10 flex items-center justify-center gap-2">
+                                ❌ Annuler
+                            </span>
 
-</div>
-</div>
+                        </button>
+
+                    </div>
+                </form>
+
+                <div class="mt-8 text-center text-sm text-emerald-700">
+                    <p>
+                        Vous avez déjà un compte ?
+                        <button type="button" id="showLoginBtn" class="font-semibold text-emerald-900 hover:underline">
+                            Se connecter
+                        </button>
+                    </p>
+                </div>
+
+                <div id="loginPanel" class="mt-8 hidden bg-emerald-50 rounded-2xl p-6 border border-emerald-100">
+                    <h4 class="text-2xl font-bold text-emerald-900 mb-4">Connexion</h4>
+                    <form id="loginForm" method="POST" action="/login">
+                        @csrf
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-emerald-900 mb-2">Email</label>
+                            <input type="email" name="email" placeholder="vous@exemple.com" required class="w-full px-4 py-3 bg-white border border-emerald-200 rounded-lg">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-emerald-900 mb-2">Mot de passe</label>
+                            <input type="password" name="password" placeholder="••••••••" required class="w-full px-4 py-3 bg-white border border-emerald-200 rounded-lg">
+                        </div>
+                        <div class="flex items-center justify-between gap-4">
+                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-2xl font-semibold transition">
+                                Se connecter
+                            </button>
+                        </div>
+                        <div class="mt-4 text-xs text-emerald-700">
+                            Entrez simplement votre email et mot de passe pour vous connecter.
+                        </div>
+                    </form>
+                </div>
+            </div>
 
         </div>
 
     </div>
 
 </main>
+
 <script>
 
 function annulerFormulaire() {
-
     document.querySelector('form').reset();
-
 }
 
 function modifierCompte() {
-
     alert("Mode modification activé");
-
 }
 
-</script>
-<script>
+const showLoginBtn = document.getElementById('showLoginBtn');
+const loginPanel = document.getElementById('loginPanel');
 
-function annulerFormulaire() {
-
-    document.querySelector('form').reset();
-
-    alert("Formulaire réinitialisé");
-
-}
-
-function modifierCompte() {
-
-    alert("Mode modification activé");
-
+if (showLoginBtn && loginPanel) {
+    showLoginBtn.addEventListener('click', () => {
+        loginPanel.classList.toggle('hidden');
+        loginPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
 }
 
 </script>

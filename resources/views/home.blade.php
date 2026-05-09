@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZeroTrace AI</title>
+    <title>Zéro Déchet AI</title>
 
     <style>
         * {
@@ -244,7 +244,7 @@
 <nav class="navbar">
     <div class="logo">
         <div class="logo-icon">♻</div>
-        ZeroTrace
+        Zéro Déchet
     </div>
 
     <a href="/" class="nav-link">Retour à l'accueil</a>
