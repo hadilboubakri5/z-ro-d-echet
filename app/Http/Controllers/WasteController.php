@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ImpactAction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class WasteController extends Controller
@@ -35,9 +37,19 @@ class WasteController extends Controller
         );
 
         if ($response->failed()) {
-            $result = "Gemini Error: " . $response->body();
+            $result = 'Gemini Error: '.$response->body();
         } else {
             $result = $response->json('candidates.0.content.parts.0.text');
+        }
+
+        if (is_string($result) && $result !== '' && ! str_starts_with($result, 'Gemini Error')) {
+            ImpactAction::create([
+                'user_id' => Auth::id(),
+                'type' => 'assistant',
+                'category' => $category ?: 'general',
+                'waste_kg' => 0,
+                'carbon_kg' => 0,
+            ]);
         }
 
         return view('home', compact('item', 'category', 'result'));

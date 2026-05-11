@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Impact - Ecological Impact Tracker</title>
+    <title>Impact — Zéro Déchet</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         * {
@@ -511,25 +511,20 @@
     <main class="container">
         <!-- Hero Section -->
         <section class="hero">
-            <h2>Your Environmental Impact</h2>
-            <p>Track your progress toward zero waste and discover how your choices create real change</p>
+            <h2>Votre impact environnemental</h2>
+            <p>Les graphiques se mettent à jour selon vos scans (tableau de bord → scanner) et les conseils obtenus via l’assistant.</p>
         </section>
 
         <!-- Stats Grid -->
-        <div id="statsContainer" class="stats-grid">
-            <div class="loading">
-                <div class="spinner"></div>
-                <p>Loading your stats...</p>
-            </div>
-        </div>
+        <div id="statsContainer" class="stats-grid"></div>
 
         <!-- Charts Section -->
         <section class="charts-section">
-            <h3>Your Progress Over Time</h3>
+            <h3>Votre progression dans le temps</h3>
             <div class="charts-grid">
                 <!-- Line Chart -->
                 <div class="chart-container">
-                    <h4>Waste & Emissions Reduction</h4>
+                    <h4>Déchet estimé &amp; CO₂ (par mois)</h4>
                     <div class="chart-wrapper">
                         <canvas id="lineChart"></canvas>
                     </div>
@@ -537,133 +532,99 @@
 
                 <!-- Pie Chart -->
                 <div class="chart-container">
-                    <h4>Waste Breakdown</h4>
+                    <h4>Répartition par type (scans)</h4>
                     <div class="chart-wrapper">
                         <canvas id="pieChart"></canvas>
                     </div>
-                    <div class="pie-legend">
-                        <div class="legend-item">
-                            <div class="legend-color" style="background-color: #22c55e;"></div>
-                            <span>Food Waste <strong>35%</strong></span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="background-color: #16a34a;"></div>
-                            <span>Plastic <strong>25%</strong></span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="background-color: #4ade80;"></div>
-                            <span>Paper <strong>20%</strong></span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="background-color: #86efac;"></div>
-                            <span>Other <strong>20%</strong></span>
-                        </div>
-                    </div>
+                    <div id="pieLegend" class="pie-legend"></div>
                 </div>
             </div>
         </section>
 
         <!-- Achievements Section -->
         <section class="achievements-section">
-            <h3>Achievements & Milestones</h3>
-            <div id="achievementsContainer" class="achievements-grid">
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <p>Loading achievements...</p>
-                </div>
-            </div>
+            <h3>Objectifs &amp; jalons</h3>
+            <div id="achievementsContainer" class="achievements-grid"></div>
         </section>
 
         <!-- CTA Section -->
         <section class="cta-section">
             <div style="font-size: 2rem;">⚡</div>
-            <h3>Ready to Make More Impact?</h3>
-            <p>Every small action counts. Start tracking your waste today and join thousands making a real difference.</p>
-            <button class="cta-button" onclick="handleCTA()">Start Tracking Now</button>
+            <h3>Continuer à réduire vos déchets</h3>
+            <p>Chaque scan enrichit vos statistiques : ouvrez le scanner depuis le tableau de bord.</p>
+            <button type="button" class="cta-button" onclick="handleCTA()">Scanner un produit</button>
         </section>
     </main>
 
     <!-- Footer -->
     <footer>
-        <p>Every action matters. Together, we're building a sustainable future.</p>
-        <p>© 2024 Impact - Track Your Environmental Journey</p>
+        <p>Chaque geste compte. Ensemble vers moins de déchet.</p>
+        <p>© 2026 Zéro Déchet — Suivi d’impact personnel</p>
     </footer>
 
-    <!-- JavaScript -->
+    <!-- Données injectées par Laravel + Chart.js -->
     <script>
-        const API_URL = 'api.php';
+        window.__IMPACT_STATS__ = @json($impactStats ?? []);
 
-        // Load data from PHP API
-        async function loadData() {
-            try {
-                const response = await fetch(API_URL);
-                const data = await response.json();
-                
-                renderStats(data);
-                renderCharts(data.monthly_data);
-                renderAchievements(data.achievements);
-            } catch (error) {
-                console.error('Error loading data:', error);
-                // Fallback to static data
-                loadStaticData();
-            }
-        }
+        let lineChartInstance = null;
+        let pieChartInstance = null;
 
-        // Render stats cards
+        const PIE_COLORS = ['#22c55e', '#16a34a', '#4ade80', '#86efac', '#15803d', '#059669', '#10b981'];
+
         function renderStats(data) {
             const container = document.getElementById('statsContainer');
+            const scans = data.articles_scannes ?? 0;
+            const tips = data.conseils_appliques ?? 0;
             container.innerHTML = `
                 <div class="stat-card">
                     <div class="stat-header">
-                        <span class="stat-title">Waste Reduced</span>
+                        <span class="stat-title">Déchet évité (cumul)</span>
                         <div class="stat-icon" style="background-color: #f0fdf4; color: #16a34a;">♻️</div>
                     </div>
-                    <div class="stat-value">${data.waste_reduced.toFixed(1)}</div>
-                    <div class="stat-unit">kg this month</div>
-                    <div class="stat-trend trend-up">📈 15% improvement</div>
+                    <div class="stat-value">${Number(data.waste_reduced ?? 0).toFixed(1)}</div>
+                    <div class="stat-unit">kg estimés (tous scans)</div>
+                    <div class="stat-trend trend-up">${scans} scan(s) enregistré(s)</div>
                 </div>
-
                 <div class="stat-card">
                     <div class="stat-header">
-                        <span class="stat-title">CO2 Saved</span>
+                        <span class="stat-title">CO₂ associé</span>
                         <div class="stat-icon" style="background-color: #ecfdf5; color: #059669;">💨</div>
                     </div>
-                    <div class="stat-value">${data.co2_saved.toFixed(1)}</div>
-                    <div class="stat-unit">kg equivalent</div>
-                    <div class="stat-trend trend-up">📈 Like 2 trees planted</div>
+                    <div class="stat-value">${Number(data.co2_saved ?? 0).toFixed(1)}</div>
+                    <div class="stat-unit">kg équivalent CO₂</div>
+                    <div class="stat-trend trend-up">Basé sur le même modèle que le scan</div>
                 </div>
-
                 <div class="stat-card">
                     <div class="stat-header">
-                        <span class="stat-title">Water Saved</span>
+                        <span class="stat-title">Eau (ordre de grandeur)</span>
                         <div class="stat-icon" style="background-color: #ecf0ff; color: #0891b2;">💧</div>
                     </div>
-                    <div class="stat-value">${data.water_saved.toLocaleString()}</div>
-                    <div class="stat-unit">liters conserved</div>
-                    <div class="stat-trend trend-up">📈 Equals 10 showers</div>
+                    <div class="stat-value">${Number(data.water_saved ?? 0).toLocaleString('fr-FR')}</div>
+                    <div class="stat-unit">litres indicatifs (×8 sur le kg évité)</div>
+                    <div class="stat-trend trend-up">Heuristique simplifiée</div>
                 </div>
-
                 <div class="stat-card green-gradient">
                     <div class="stat-header">
-                        <span class="stat-title">Current Streak</span>
+                        <span class="stat-title">Série active</span>
                         <div class="stat-icon">🔥</div>
                     </div>
-                    <div class="stat-value">${data.current_streak}</div>
-                    <div class="stat-unit">days in a row</div>
-                    <div class="stat-trend">✓ Keep it going!</div>
+                    <div class="stat-value">${data.current_streak ?? 0}</div>
+                    <div class="stat-unit">jour(s) consécutif(s) avec au moins une action</div>
+                    <div class="stat-trend">${tips} conseil(s) assistant</div>
                 </div>
             `;
         }
 
-        // Render charts
-        function renderCharts(monthlyData) {
-            // Line Chart Data
+        function renderCharts(data) {
+            const monthlyData = data.monthly_data || [];
+            const breakdown = data.category_breakdown || [];
+
             const lineChartData = {
-                labels: monthlyData.map(d => d.month),
+                labels: monthlyData.map(function (d) { return d.month; }),
                 datasets: [
                     {
-                        label: 'Waste (kg)',
-                        data: monthlyData.map(d => d.waste),
+                        label: 'Déchet (kg)',
+                        data: monthlyData.map(function (d) { return d.waste; }),
                         borderColor: '#22c55e',
                         backgroundColor: 'rgba(34, 197, 94, 0.1)',
                         borderWidth: 3,
@@ -675,8 +636,8 @@
                         pointBorderWidth: 2
                     },
                     {
-                        label: 'Carbon (kg CO2)',
-                        data: monthlyData.map(d => d.carbon),
+                        label: 'Carbone (kg CO₂)',
+                        data: monthlyData.map(function (d) { return d.carbon; }),
                         borderColor: '#0891b2',
                         backgroundColor: 'rgba(8, 145, 178, 0.1)',
                         borderWidth: 3,
@@ -690,9 +651,9 @@
                 ]
             };
 
-            // Initialize Line Chart
             const lineCtx = document.getElementById('lineChart').getContext('2d');
-            new Chart(lineCtx, {
+            if (lineChartInstance) lineChartInstance.destroy();
+            lineChartInstance = new Chart(lineCtx, {
                 type: 'line',
                 data: lineChartData,
                 options: {
@@ -701,10 +662,7 @@
                     plugins: {
                         legend: {
                             display: true,
-                            labels: {
-                                color: '#4b5563',
-                                font: { size: 12 }
-                            }
+                            labels: { color: '#4b5563', font: { size: 12 } }
                         }
                     },
                     scales: {
@@ -721,110 +679,70 @@
                 }
             });
 
-            // Pie Chart Data
-            const pieChartData = {
-                labels: ['Food Waste', 'Plastic', 'Paper', 'Other'],
-                datasets: [{
-                    data: [35, 25, 20, 20],
-                    backgroundColor: ['#22c55e', '#16a34a', '#4ade80', '#86efac'],
-                    borderColor: '#fff',
-                    borderWidth: 2
-                }]
-            };
+            const pieLabels = breakdown.map(function (b) { return b.label; });
+            const pieValues = breakdown.map(function (b) { return Math.max(b.percent, 0); });
+            const pieColors = breakdown.map(function (_, i) { return PIE_COLORS[i % PIE_COLORS.length]; });
 
-            // Initialize Pie Chart
+            const legendEl = document.getElementById('pieLegend');
+            if (legendEl) {
+                legendEl.innerHTML = breakdown.map(function (b, i) {
+                    return '<div class="legend-item">' +
+                        '<div class="legend-color" style="background-color:' + pieColors[i] + ';"></div>' +
+                        '<span>' + b.label + ' <strong>' + b.percent.toFixed(1) + '%</strong></span>' +
+                        '</div>';
+                }).join('');
+            }
+
             const pieCtx = document.getElementById('pieChart').getContext('2d');
-            new Chart(pieCtx, {
+            if (pieChartInstance) pieChartInstance.destroy();
+            pieChartInstance = new Chart(pieCtx, {
                 type: 'doughnut',
-                data: pieChartData,
+                data: {
+                    labels: pieLabels,
+                    datasets: [{
+                        data: pieValues,
+                        backgroundColor: pieColors,
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    }]
+                },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    }
+                    plugins: { legend: { display: false } }
                 }
             });
         }
 
-        // Render achievements
         function renderAchievements(achievements) {
             const container = document.getElementById('achievementsContainer');
-            container.innerHTML = achievements.map(achievement => `
-                <div class="achievement-card ${achievement.unlocked ? 'unlocked' : 'locked'}" onclick="unlockAchievement(${achievement.id})">
-                    <div class="achievement-header">
-                        <div class="achievement-icon">${achievement.unlocked ? '🏆' : '🎯'}</div>
-                        <div class="achievement-info">
-                            <div class="achievement-title">${achievement.title}</div>
-                            <div class="achievement-description">${achievement.description}</div>
-                            ${achievement.unlocked ? '<div class="achievement-badge">✓ Unlocked</div>' : ''}
-                        </div>
-                    </div>
-                </div>
-            `).join('');
+            const list = achievements || [];
+            container.innerHTML = list.map(function (achievement) {
+                return '<div class="achievement-card ' + (achievement.unlocked ? 'unlocked' : 'locked') + '">' +
+                    '<div class="achievement-header">' +
+                    '<div class="achievement-icon">' + (achievement.unlocked ? '🏆' : '🎯') + '</div>' +
+                    '<div class="achievement-info">' +
+                    '<div class="achievement-title">' + achievement.title + '</div>' +
+                    '<div class="achievement-description">' + achievement.description + '</div>' +
+                    (achievement.unlocked ? '<div class="achievement-badge">✓ Débloqué</div>' : '') +
+                    '</div></div></div>';
+            }).join('');
         }
 
-        // Unlock achievement via API
-        async function unlockAchievement(achievementId) {
-            try {
-                const response = await fetch(API_URL + '?action=unlock-achievement', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ achievement_id: achievementId })
-                });
-                const result = await response.json();
-                if (result.success) {
-                    loadData(); // Reload data
-                }
-            } catch (error) {
-                console.error('Error unlocking achievement:', error);
-            }
-        }
-
-        // Fallback static data
-        function loadStaticData() {
-            const staticData = {
-                waste_reduced: 127.5,
-                co2_saved: 89.3,
-                water_saved: 2450,
-                current_streak: 45,
-                monthly_data: [
-                    { month: 'Jan', waste: 45, carbon: 32 },
-                    { month: 'Feb', waste: 38, carbon: 28 },
-                    { month: 'Mar', waste: 32, carbon: 24 },
-                    { month: 'Apr', waste: 28, carbon: 20 },
-                    { month: 'May', waste: 22, carbon: 16 },
-                    { month: 'Jun', waste: 18, carbon: 12 }
-                ],
-                achievements: [
-                    { id: 1, title: 'First Step', description: 'Started tracking waste', unlocked: true },
-                    { id: 2, title: '30-Day Warrior', description: '30 days of tracking', unlocked: true },
-                    { id: 3, title: 'Eco Champion', description: '50% waste reduction', unlocked: true },
-                    { id: 4, title: 'Zero Waste Hero', description: '90-day streak', unlocked: false },
-                    { id: 5, title: 'Planet Saver', description: '1 ton CO2 saved', unlocked: false },
-                    { id: 6, title: 'Legend Status', description: '1-year commitment', unlocked: false }
-                ]
-            };
-            
-            renderStats(staticData);
-            renderCharts(staticData.monthly_data);
-            renderAchievements(staticData.achievements);
-        }
-
-        // CTA Button Handler
         function handleCTA() {
-            alert('Welcome to Impact! Start your zero-waste journey today. 🌿');
+            window.location.href = @json(route('scan'));
         }
 
-        // Navigate to home
         function navigateToHome() {
-            window.location.href = '/';
+            window.location.href = @json(route('dashboard'));
         }
 
-        // Initialize on load
-        document.addEventListener('DOMContentLoaded', loadData);
+        document.addEventListener('DOMContentLoaded', function () {
+            var data = window.__IMPACT_STATS__ || {};
+            renderStats(data);
+            renderCharts(data);
+            renderAchievements(data.achievements || []);
+        });
     </script>
 </body>
 </html>

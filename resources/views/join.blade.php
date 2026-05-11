@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rejoindre - ZeroTrace</title>
+    <title>Rejoindre - Zero d'echet </title>
 
     <style>
 
@@ -308,7 +308,7 @@
                 ♻️
             </div>
 
-            <h1>ZeroTrace</h1>
+            <h1>Zéro Déchet</h1>
 
         </div>
 
@@ -385,7 +385,8 @@
                     Commencez votre voyage zéro déchet maintenant
                 </p>
 
-                <form id="registerForm">
+                <form id="registerForm" method="POST" action="/register">
+                    @csrf
 
                     <div class="form-group">
 
@@ -393,7 +394,9 @@
 
                         <input
                             type="text"
-                            placeholder="Jean Dupont">
+                            name="name"
+                            placeholder="Jean Dupont"
+                            required>
 
                     </div>
 
@@ -403,7 +406,9 @@
 
                         <input
                             type="email"
-                            placeholder="vous@exemple.com">
+                            name="email"
+                            placeholder="vous@exemple.com"
+                            required>
 
                     </div>
 
@@ -413,7 +418,9 @@
 
                         <input
                             type="password"
-                            placeholder="••••••••">
+                            name="password"
+                            placeholder="••••••••"
+                            required>
 
                     </div>
 
@@ -423,13 +430,15 @@
 
                         <input
                             type="password"
-                            placeholder="••••••••">
+                            name="password_confirmation"
+                            placeholder="••••••••"
+                            required>
 
                     </div>
 
                     <div class="checkbox">
 
-                        <input type="checkbox">
+                        <input type="checkbox" name="consent" required>
 
                         <p>
                             J'accepte les
@@ -475,7 +484,8 @@
 
                     <h4>Connexion</h4>
 
-                    <form>
+                    <form method="POST" action="/login">
+                        @csrf
 
                         <div class="form-group">
 
@@ -483,7 +493,9 @@
 
                             <input
                                 type="email"
-                                placeholder="vous@exemple.com">
+                                name="email"
+                                placeholder="vous@exemple.com"
+                                required>
 
                         </div>
 
@@ -493,7 +505,9 @@
 
                             <input
                                 type="password"
-                                placeholder="••••••••">
+                                name="password"
+                                placeholder="••••••••"
+                                required>
 
                         </div>
 

@@ -284,7 +284,7 @@
     </div>
 
     <div class="card">
-        <h2>ZeroWaste AI</h2>
+        <h2>Zéro Déchet IA</h2>
         <p>Générez une suggestion écologique en quelques secondes.</p>
 
         <form method="POST" action="{{ route('generate') }}">
